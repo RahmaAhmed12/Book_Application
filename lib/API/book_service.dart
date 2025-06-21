@@ -102,7 +102,7 @@ class BookService {
   // Existing method using Dio to fetch books by category
   Future<List<Book>> fetchBooksByCategory(
       String category, {
-        int limit = 16,
+        int limit = 10,
         int offset = 0,
       }) async {
     try {
