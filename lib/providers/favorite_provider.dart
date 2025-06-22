@@ -39,3 +39,4 @@ final favoritesProvider =
 StateNotifierProvider<FavoriteNotifier, List<Book>>((ref) {
   return FavoriteNotifier();
 });
+
