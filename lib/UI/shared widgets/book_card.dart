@@ -1,3 +1,4 @@
+import 'package:book_application1/Core/theme/App_style.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
@@ -47,10 +48,7 @@ class BookCard extends StatelessWidget {
                     // Book title
                     Text(
                       title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style:  AppStyle.darkBlueText18,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -58,10 +56,7 @@ class BookCard extends StatelessWidget {
                     // Author name
                     Text(
                       author,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
+                      style: AppStyle.greyText14,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

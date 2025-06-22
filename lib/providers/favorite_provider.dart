@@ -33,9 +33,15 @@ class FavoriteNotifier extends StateNotifier<List<Book>> {
     }
     _saveFavorites();
   }
+
+  void removeFavorite(Book book) {
+    state = state.where((b) => b.key != book.key).toList();
+    _saveFavorites();
+  }
 }
 
 final favoritesProvider =
 StateNotifierProvider<FavoriteNotifier, List<Book>>((ref) {
   return FavoriteNotifier();
 });
+

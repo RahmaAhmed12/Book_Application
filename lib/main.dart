@@ -17,11 +17,9 @@ import 'model/book_model.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-
-  final appDocumentDir = await getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
-
+  await Hive.initFlutter();
   await Hive.openBox('favoritesBox');
+
   runApp(const ProviderScope(child:MyApp()));
 }
 
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
 }
 
 final GoRouter _router =GoRouter(
-  initialLocation: "/home",
+  initialLocation: "/splash",
     routes : <RouteBase>
     [
       GoRoute(

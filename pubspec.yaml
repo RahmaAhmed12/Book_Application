@@ -103,11 +103,13 @@ flutter:
 #         - asset: assets/fonts/ArianaVioleta-dz2K.ttf
 #           weight: 700
 
-#     - family: ShortBaby
-#       fonts:
-#         - asset: assets/fonts/ShortBaby-Mg2w.ttf
-#         - asset: assets/fonts/ShortBaby-Mg2w.ttf
-#           weight: 700
+     - family: ShortBaby
+       fonts:
+         - asset: assets/fonts/ShortBaby-Mg2w.ttf
+         - asset: assets/fonts/ShortBaby-Mg2w.ttf
+           weight: 700
+
+
 
 #     - family: BykarsDemo
 #       fonts:

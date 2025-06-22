@@ -1,16 +1,13 @@
-import 'package:book_application1/Core/theme/App_colors.dart';
+
 import 'package:book_application1/Core/theme/App_style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../API/book_details_service.dart';
 import '../../../model/book_details_model.dart';
 import '../../../model/book_model.dart';
-
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../providers/favorite_provider.dart';
-
 
 class DetailsScreen extends ConsumerWidget {
   const DetailsScreen({super.key});
@@ -26,7 +23,6 @@ class DetailsScreen extends ConsumerWidget {
     final favorites = ref.watch(favoritesProvider);
     final isFavorite = favorites.any((b) => b.key == book.key);
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Details", style: AppStyle.detailsHeader),
@@ -36,7 +32,7 @@ class DetailsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // image
+
             Center(
               child: Image.network(
                 book.imageURL,
@@ -49,47 +45,38 @@ class DetailsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
 
-            // Title & Favorite Icon
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Text(
                     book.title,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: AppStyle.detailsTittle
                   ),
                 ),
-                // IconButton(
-                //   icon: Icon(
-                //     isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                //     color: AppColors.deepOrange,
-                //     size: 30,
-                //   ),
-                //   onPressed: () {
-                //     ref.read(favoritesProvider.notifier).toggleFavorite(book);
-                //   },
-                // ),
                 IconButton(
                   icon: Icon(
                     isFavorite ? Icons.bookmark : Icons.bookmark_border,
                     color: Colors.deepOrange,
+                    size: 25,
                   ),
                   onPressed: () {
                     ref.read(favoritesProvider.notifier).toggleFavorite(book);
                   },
                 ),
-
               ],
             ),
+            const SizedBox(height: 5),
 
-            const SizedBox(height: 8),
-            Text(book.author, style: const TextStyle(fontSize: 18, color: Colors.grey)),
-            const SizedBox(height: 16),
-            Text("Publish Year : ${book.firstPublishYear ?? '-'}", style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 8),
-            Text("Subjects: ${book.subjects}", style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 24),
-            const Text("-----------------------------------------------------"),
+            Text(" By ${book.author}", style:AppStyle.greyText18),
+            const SizedBox(height: 18),
+
+            detailRow("Subjects: "," ${book.subjects}"),
+            const SizedBox(height: 10),
+
+            detailRow("Publish Year: "," ${book.firstPublishYear}"),
+            const SizedBox(height: 10),
 
             if (book.coverEditionKey != null)
               FutureBuilder<BookDetails?>(
@@ -104,28 +91,60 @@ class DetailsScreen extends ConsumerWidget {
                   }
 
                   final details = snapshot.data!;
+
+                  // UI display only
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (details.publishDate != null) Text("Published: ${details.publishDate}"),
-                      if (details.numberOfPages != null) Text("Pages: ${details.numberOfPages}"),
-                      if (details.genres != null) Text("Genres: ${details.genres}"),
-                      if (details.language != null) Text("Language: ${details.language}"),
+                      if (details.numberOfPages != null)
+                        detailRow("Pages:","${details.numberOfPages}"),
+                      SizedBox(height: 10,),
+                      if (details.language != null)
+                        detailRow("Language:"," ${extractAfterSecondSlash(details.language)}"),
+                      SizedBox(height: 10,),
                       if (details.notes != null)
                         Padding(
                           padding: const EdgeInsets.only(top: 12),
-                          child: Text(
-                            "Notes: ${details.notes}",
-                            style: const TextStyle(fontStyle: FontStyle.italic),
-                          ),
+                          child: detailRow("Notes:","${details.notes}"),
                         ),
                     ],
                   );
                 },
               ),
+
           ],
         ),
       ),
     );
   }
 }
+
+
+///----------------------------------------------------
+///---------Functions
+Widget detailRow(String label, String value) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(label, style: AppStyle.detailsBodyBold),
+      const SizedBox(width: 4), // spacing between label and value
+      Expanded(
+        child: Text(
+          value,
+          style: AppStyle.detailsBody,
+          softWrap: true,
+        ),
+      ),
+    ],
+  );
+}
+
+String extractAfterSecondSlash(String? input) {
+  if (input == null || input.isEmpty) return '-';
+  final parts = input.split('/');
+  if (parts.length > 2) {
+    return parts.sublist(2).join('/');
+  }
+  return input;
+}
+

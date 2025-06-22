@@ -14,4 +14,6 @@ class AppAssets{
   static const String onboarding1 = "assets/images/undraw_reading-time_gcvc-Photoroom.png";
   static const String onboarding2 = "assets/images/undraw_relaxed-reading_wfkr (1)-Photoroom.png";
 
+  static const String story = "assets/images/storytelling.png";
+
 }

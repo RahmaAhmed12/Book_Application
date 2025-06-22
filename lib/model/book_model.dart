@@ -49,6 +49,7 @@ class Book {
     );
   }
 
+
   Map<String, dynamic> toJson() => _$BookToJson(this);
 }
 

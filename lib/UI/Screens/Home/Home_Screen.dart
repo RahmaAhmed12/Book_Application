@@ -178,41 +178,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStateMixin {
-  final List<String> categories = [ 'romance','fantasy', 'history','music','cooking','work', 'health',];
+  final List<String> categories = [ 'romance','fantasy', 'history','music','cooking','work', 'health','dance','fashion','horror','education','science','physics','magic'];
   final Map<String, ScrollController> controllers = {};
   late TabController _tabController;
 
-  @override
-  // void initState() {
-  //   super.initState();
-  //   _tabController = TabController(length: categories.length, vsync: this);
-  //
-  //   for (final category in categories) {
-  //     controllers[category] = ScrollController();
-  //     controllers[category]!.addListener(() {
-  //       final state = ref.read(bookCategoryProvider)[category];
-  //       if (controllers[category]!.position.pixels >=
-  //           controllers[category]!.position.maxScrollExtent - 300 &&
-  //           state != null &&
-  //           !state.isLoading) {
-  //         ref.read(bookCategoryProvider.notifier).fetchBooks(category);
-  //       }
-  //     });
-  //   }
-  //
-  //   // Initial fetch for first category
-  //   ref.read(bookCategoryProvider.notifier).fetchBooks(categories[0]);
-  //
-  //   // Load selected tab
-  //   _tabController.addListener(() {
-  //     if (_tabController.indexIsChanging) return;
-  //     final selectedCategory = categories[_tabController.index];
-  //     final state = ref.read(bookCategoryProvider)[selectedCategory];
-  //     if (state == null || state.books.isEmpty) {
-  //       ref.read(bookCategoryProvider.notifier).fetchBooks(selectedCategory);
-  //     }
-  //   });
-  // }
   @override
   void initState() {
     super.initState();
@@ -232,7 +201,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
       });
     }
 
-    // 👇 Wait until the widget is built to fetch the first tab's books
+    //  Wait until the widget is built to fetch the first tab's books
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookCategoryProvider.notifier).fetchBooks(categories[0]);
     });
@@ -248,63 +217,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
   }
 
 
-  // Widget _buildCategoryList(String category) {
-  //   final categoryState = ref.watch(bookCategoryProvider)[category] ?? BookCategoryState();
-  //
-  //   if (categoryState.books.isEmpty && !categoryState.isLoading) {
-  //     return const Center(
-  //       child: Text(
-  //         'No books available in this category.',
-  //         style: TextStyle(fontSize: 16, color: Colors.grey),
-  //       ),
-  //     );
-  //   }
-  //   return ListView.builder(
-  //     controller: controllers[category],
-  //     itemCount: categoryState.books.length + (categoryState.isLoading ? 1 : 0),
-  //     itemBuilder: (context, index) {
-  //       if (index < categoryState.books.length) {
-  //         final book = categoryState.books[index];
-  //         return BookCard(
-  //           title: book.title,
-  //           author: book.author,
-  //           imageUrl: book.imageURL,
-  //           onTap: () => context.pushNamed("/details", extra: book),
-  //         );
-  //       } else {
-  //         // Only shown when loading more at the bottom
-  //         return const Padding(
-  //           padding: EdgeInsets.symmetric(vertical: 16),
-  //           child: Center(child: CircularProgressIndicator()),
-  //         );
-  //       }
-  //     },
-  //   );
-  //
-  //
-  //   // return ListView.builder(
-  //   //   controller: controllers[category],
-  //   //   itemCount: categoryState.books.length + 1,
-  //   //   itemBuilder: (context, index) {
-  //   //     if (index < categoryState.books.length) {
-  //   //       final book = categoryState.books[index];
-  //   //       return BookCard(
-  //   //         title: book.title,
-  //   //         author: book.author,
-  //   //         imageUrl: book.imageURL,
-  //   //         onTap: () => context.pushNamed("/details", extra: book),
-  //   //       );
-  //   //     } else {
-  //   //       return categoryState.isLoading
-  //   //           ? const Padding(
-  //   //         padding: EdgeInsets.symmetric(vertical: 16),
-  //   //         child: Center(child: CircularProgressIndicator()),
-  //   //       )
-  //   //           : const SizedBox.shrink();
-  //   //     }
-  //   //   },
-  //   // );
-  // }
   Widget _buildCategoryList(String category) {
     final categoryState = ref.watch(bookCategoryProvider)[category] ?? BookCategoryState();
 
@@ -322,7 +234,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
       }
     }
 
-    // 📚 Book list with optional loading spinner at the bottom
+
     return ListView.builder(
       controller: controllers[category],
       itemCount: categoryState.books.length + (categoryState.isLoading ? 1 : 0),
